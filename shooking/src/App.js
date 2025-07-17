@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { ThemeProvider } from "styled-components";
+import { CartProvider } from "./context/CartContext";
+import { CustomThemeProvider, useTheme } from "./context/ThemeContext";
+import ProductListPage from "./pages/ProductListPage";
+import { GlobalStyle } from "./styles/GlobalStyle";
+import { lightTheme, darkTheme } from "./styles/theme";
+
+// 테마를 적용하고 페이지를 렌더링하는 컴포넌트
+function AppContent() {
+  const { themeMode } = useTheme();
+  const currentTheme = themeMode === "light" ? lightTheme : darkTheme;
+
+  return (
+    <ThemeProvider theme={currentTheme}>
+      <GlobalStyle />
+      <ProductListPage />
+    </ThemeProvider>
+  );
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CartProvider>
+      <CustomThemeProvider>
+        <AppContent />
+      </CustomThemeProvider>
+    </CartProvider>
   );
 }
 
