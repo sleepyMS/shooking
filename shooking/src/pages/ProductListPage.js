@@ -104,24 +104,27 @@ const ProductListPage = () => {
 
   // 4. Intersection Observer 설정
   useEffect(() => {
+    // 1. ref의 현재 값을 변수에 복사합니다.
+    const currentObserverRef = observerRef.current;
+
     const observer = new IntersectionObserver(
       (entries) => {
-        // 타겟 요소가 뷰포트와 교차하고, 더 불러올 데이터가 있을 때
         if (entries[0].isIntersecting && hasMore) {
           loadMoreProducts();
         }
       },
-      { threshold: 1.0 } // 타겟 요소가 100% 보일 때 콜백 실행
+      { threshold: 1.0 }
     );
 
-    if (observerRef.current) {
-      observer.observe(observerRef.current);
+    // 2. 복사한 변수를 사용합니다.
+    if (currentObserverRef) {
+      observer.observe(currentObserverRef);
     }
 
-    // 컴포넌트 언마운트 시 observer 연결 해제
     return () => {
-      if (observerRef.current) {
-        observer.unobserve(observerRef.current);
+      // 3. 클린업 함수에서도 동일한 변수를 사용합니다.
+      if (currentObserverRef) {
+        observer.unobserve(currentObserverRef);
       }
     };
   }, [hasMore, loadMoreProducts]);
