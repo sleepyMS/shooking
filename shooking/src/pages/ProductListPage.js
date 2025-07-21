@@ -14,7 +14,7 @@ const allProducts = Array.from({ length: 50 }, (_, i) => ({
 }));
 
 // 2. 가상 API 함수: 페이지 번호와 페이지당 아이템 수를 받아 데이터를 반환
-const fetchProducts = (page, itemsPerPage = 6) => {
+const fetchProducts = (page, itemsPerPage = 8) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       const start = (page - 1) * itemsPerPage;
