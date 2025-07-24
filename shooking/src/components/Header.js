@@ -16,7 +16,7 @@ const HeaderContainer = styled.header`
   border-bottom: 1px solid ${({ theme }) => theme.borderColor};
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 20;
   gap: 20px; /* 아이콘 사이 간격 */
 `;
 
