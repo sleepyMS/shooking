@@ -1,3 +1,5 @@
+// shooking/src/components/Header.js
+
 import React from "react";
 import styled from "styled-components";
 import { BsCart2 } from "react-icons/bs";

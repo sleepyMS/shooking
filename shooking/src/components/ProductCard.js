@@ -1,6 +1,9 @@
+// shooking/src/components/ProductCard.js
+
 import React from "react";
 import styled from "styled-components";
 import { useCart } from "../context/CartContext";
+import { useNavigate } from "react-router-dom"; // useNavigate 임포트
 
 const CardContainer = styled.div`
   background-color: ${({ theme }) => theme.cardBg};
@@ -51,8 +54,13 @@ const Price = styled.p`
   color: ${({ theme }) => theme.text};
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 8px; /* 버튼 사이 간격 */
+`;
+
 const AddToCartButton = styled.button`
-  width: 100%;
+  flex: 1; /* 공간 균등 분할 */
   padding: 12px;
   background-color: ${({ theme }) => theme.buttonBg};
   color: ${({ theme }) => theme.buttonText};
@@ -68,8 +76,19 @@ const AddToCartButton = styled.button`
   }
 `;
 
+const PurchaseButton = styled(AddToCartButton)`
+  background-color: #ffda00; /* 항상 노란색 */
+  color: #111111; /* 항상 검은색 텍스트 */
+`;
+
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
+  const navigate = useNavigate(); // useNavigate 훅 사용
+
+  const handlePurchase = () => {
+    // 결제 페이지로 이동하면서 필요한 상품 정보를 state로 전달할 수 있습니다.
+    navigate("/my-cards", { state: { productToPay: product } });
+  };
 
   return (
     <CardContainer>
@@ -78,9 +97,12 @@ const ProductCard = ({ product }) => {
         <Brand>{product.brand}</Brand>
         <Description>{product.description}</Description>
         <Price>{product.price.toLocaleString()}원</Price>
-        <AddToCartButton onClick={() => addToCart(product)}>
-          담기
-        </AddToCartButton>
+        <ButtonWrapper>
+          <AddToCartButton onClick={() => addToCart(product)}>
+            담기
+          </AddToCartButton>
+          <PurchaseButton onClick={handlePurchase}>구매</PurchaseButton>
+        </ButtonWrapper>
       </InfoContainer>
     </CardContainer>
   );

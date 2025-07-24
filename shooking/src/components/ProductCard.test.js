@@ -38,7 +38,6 @@ describe("ProductCard", () => {
   });
 
   test("상품 정보(브랜드, 설명, 가격)가 올바르게 렌더링된다.", () => {
-    // 이제 두 번째 인자 없이 호출해도 오류가 발생하지 않습니다.
     renderWithProviders(<ProductCard product={mockProduct} />);
 
     expect(screen.getByText("테스트 브랜드")).toBeInTheDocument();
