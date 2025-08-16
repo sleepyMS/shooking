@@ -1,9 +1,9 @@
-// shooking/src/components/ProductCard.js
+// src/components/ProductCard.js
 
 import React from "react";
 import styled from "styled-components";
 import { useCart } from "../context/CartContext";
-import { useNavigate } from "react-router-dom"; // useNavigate 임포트
+import { useNavigate } from "react-router-dom";
 
 const CardContainer = styled.div`
   background-color: ${({ theme }) => theme.cardBg};
@@ -56,11 +56,11 @@ const Price = styled.p`
 
 const ButtonWrapper = styled.div`
   display: flex;
-  gap: 8px; /* 버튼 사이 간격 */
+  gap: 8px;
 `;
 
 const AddToCartButton = styled.button`
-  flex: 1; /* 공간 균등 분할 */
+  flex: 1;
   padding: 12px;
   background-color: ${({ theme }) => theme.buttonBg};
   color: ${({ theme }) => theme.buttonText};
@@ -77,17 +77,26 @@ const AddToCartButton = styled.button`
 `;
 
 const PurchaseButton = styled(AddToCartButton)`
-  background-color: #ffda00; /* 항상 노란색 */
-  color: #111111; /* 항상 검은색 텍스트 */
+  background-color: #ffda00;
+  color: #111111;
 `;
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
-  const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate();
 
   const handlePurchase = () => {
-    // 결제 페이지로 이동하면서 필요한 상품 정보를 state로 전달할 수 있습니다.
-    navigate("/my-cards", { state: { productToPay: product } });
+    const shippingFee = product.price >= 100000 ? 0 : 3000;
+    const totalAmount = product.price + shippingFee;
+
+    // 단일 상품 정보를 state로 전달
+    navigate("/my-cards", {
+      state: {
+        cartItems: [product],
+        totalAmount,
+        isDirectPurchase: true,
+      },
+    });
   };
 
   return (

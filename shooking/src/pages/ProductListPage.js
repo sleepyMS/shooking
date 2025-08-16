@@ -1,9 +1,10 @@
-// shooking/src/pages/ProductListPage.js
+// src/pages/ProductListPage.js
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
 import ProductCard from "../components/ProductCard";
+import CartModal from "../components/CartModal"; // CartModal 임포트
 
 // 1. 더 큰 Mock 데이터 셋 (실제로는 API 서버에 있을 데이터)
 const allProducts = Array.from({ length: 50 }, (_, i) => ({
@@ -12,7 +13,7 @@ const allProducts = Array.from({ length: 50 }, (_, i) => ({
   description:
     i % 2 === 0 ? "편안하고 착용감이 좋은 신발" : "힙한 컬러가 매력적인 신발",
   price: 25000 + ((i * 1000) % 15000),
-  image: `https://picsum.photos/id/${i + 10}/500/500`, // 고유 이미지 사용
+  image: `https://picsum.photos/id/${i + 10}/500/500`,
 }));
 
 // 2. 가상 API 함수: 페이지 번호와 페이지당 아이템 수를 받아 데이터를 반환
@@ -82,16 +83,14 @@ const Loader = styled.div`
 `;
 
 const ProductListPage = () => {
-  // 3. 무한 스크롤을 위한 상태 추가
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [isCartModalOpen, setIsCartModalOpen] = useState(false); // 모달 상태 추가
 
-  // Intersection Observer가 관찰할 타겟 요소에 대한 ref
   const observerRef = useRef();
 
-  // 데이터 로딩 함수 (useCallback으로 불필요한 재생성 방지)
   const loadMoreProducts = useCallback(async () => {
     if (isLoading) return;
     setIsLoading(true);
@@ -104,9 +103,7 @@ const ProductListPage = () => {
     setIsLoading(false);
   }, [isLoading, page]);
 
-  // 4. Intersection Observer 설정
   useEffect(() => {
-    // 1. ref의 현재 값을 변수에 복사합니다.
     const currentObserverRef = observerRef.current;
 
     const observer = new IntersectionObserver(
@@ -118,13 +115,11 @@ const ProductListPage = () => {
       { threshold: 1.0 }
     );
 
-    // 2. 복사한 변수를 사용합니다.
     if (currentObserverRef) {
       observer.observe(currentObserverRef);
     }
 
     return () => {
-      // 3. 클린업 함수에서도 동일한 변수를 사용합니다.
       if (currentObserverRef) {
         observer.unobserve(currentObserverRef);
       }
@@ -133,7 +128,7 @@ const ProductListPage = () => {
 
   return (
     <PageContainer>
-      <Header />
+      <Header setIsCartModalOpen={setIsCartModalOpen} />
       <MainContent>
         <TitleWrapper>
           <PageTitle>신발 상품 목록</PageTitle>
@@ -147,7 +142,6 @@ const ProductListPage = () => {
           ))}
         </ProductGrid>
 
-        {/* 5. 로딩 및 마지막 상태 UI */}
         <div ref={observerRef}>
           {isLoading && <Loader>상품을 불러오는 중...</Loader>}
           {!hasMore && products.length > 0 && (
@@ -155,6 +149,9 @@ const ProductListPage = () => {
           )}
         </div>
       </MainContent>
+      {isCartModalOpen && (
+        <CartModal onClose={() => setIsCartModalOpen(false)} />
+      )}
     </PageContainer>
   );
 };

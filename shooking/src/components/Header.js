@@ -1,4 +1,4 @@
-// shooking/src/components/Header.js
+// src/components/Header.js
 
 import React from "react";
 import styled from "styled-components";
@@ -9,7 +9,7 @@ import { useTheme } from "../context/ThemeContext";
 
 const HeaderContainer = styled.header`
   display: flex;
-  justify-content: flex-end; /* 아이콘을 오른쪽으로 정렬 */
+  justify-content: flex-end;
   align-items: center;
   padding: 16px 20px;
   background-color: ${({ theme }) => theme.cardBg};
@@ -17,7 +17,7 @@ const HeaderContainer = styled.header`
   position: sticky;
   top: 0;
   z-index: 20;
-  gap: 20px; /* 아이콘 사이 간격 */
+  gap: 20px;
 `;
 
 const IconWrapper = styled.div`
@@ -53,17 +53,22 @@ const CartCountBadge = styled.span`
   font-weight: bold;
 `;
 
-const Header = () => {
+const Header = ({ setIsCartModalOpen }) => {
   const { cartItems } = useCart();
   const { themeMode, toggleTheme } = useTheme();
-  const cartItemCount = cartItems.length;
+
+  // 장바구니에 담긴 상품의 총 수량을 계산
+  const cartItemCount = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 
   return (
     <HeaderContainer>
       <IconWrapper onClick={toggleTheme}>
         <ThemeIcon>{themeMode === "light" ? <FiMoon /> : <FiSun />}</ThemeIcon>
       </IconWrapper>
-      <IconWrapper>
+      <IconWrapper onClick={() => setIsCartModalOpen(true)}>
         <CartIcon />
         {cartItemCount > 0 && <CartCountBadge>{cartItemCount}</CartCountBadge>}
       </IconWrapper>
