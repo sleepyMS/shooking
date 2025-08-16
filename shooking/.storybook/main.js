@@ -15,7 +15,7 @@ const config = {
   webpackFinal: async (config) => {
     config.output = {
       ...config.output,
-      publicPath: "/shooking/storybook/",
+      publicPath: "./",
     };
     return config;
   },
