@@ -21,10 +21,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "predeploy": "npm run build && npm run build-storybook",
-    "deploy": "gh-pages -d build -r https://github.com/sleepyMS/shooking.git -b gh-pages"
+    "build-storybook": "storybook build --output-dir storybook-static --public-url /shooking/storybook/"
   },
   "eslintConfig": {
     "extends": [
