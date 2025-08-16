@@ -32,9 +32,18 @@ jobs:
         run: npm run build-storybook
         working-directory: ./shooking
 
-      - name: Deploy to GitHub Pages
+      # 첫 번째 배포: 스토리북을 루트에 배포
+      - name: Deploy to GitHub Pages (Storybook)
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./shooking/build, ./shooking/storybook-static
-          destination_dir: ., ./storybook
+          publish_dir: ./shooking/storybook-static
+          destination_dir: ./
+
+      # 두 번째 배포: 프론트엔드 페이지를 루트에 배포 (이것이 덮어쓰게 됨)
+      - name: Deploy to GitHub Pages (Frontend)
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./shooking/build
+          destination_dir: ./
