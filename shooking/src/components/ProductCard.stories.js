@@ -37,7 +37,7 @@ Over100k.args = {
   product: {
     id: 2,
     brand: "아디다스",
-    description: "최신 트렌드의 스니커즈",
+    description: "최신 스타일의 스니커즈",
     price: 120000,
     image: "https://picsum.photos/id/2/500/500",
   },
