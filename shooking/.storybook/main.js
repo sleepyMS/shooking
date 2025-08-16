@@ -11,5 +11,14 @@ const config = {
     options: {},
   },
   staticDirs: ["../public"],
+
+  webpackFinal: async (config) => {
+    config.output = {
+      ...config.output,
+      publicPath: "/shooking/storybook/",
+    };
+    return config;
+  },
 };
+
 export default config;
