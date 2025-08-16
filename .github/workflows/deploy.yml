@@ -36,7 +36,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # 프론트엔드와 스토리북을 동시에 배포하기 위해 publish_dir을 쉼표로 구분하여 설정
           publish_dir: ./shooking/build, ./shooking/storybook-static
-          # 배포될 경로를 명확하게 지정 (루트와 storybook 폴더)
           destination_dir: ., ./storybook
