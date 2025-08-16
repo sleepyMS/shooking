@@ -21,13 +21,16 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "predeploy": "npm run build && npm run build-storybook",
+    "deploy": "gh-pages -d build -r https://github.com/sleepyMS/shooking.git -b gh-pages"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "plugin:storybook/recommended"
     ]
   },
   "browserslist": {
@@ -43,6 +46,14 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^6.3.0"
+    "@storybook/addon-docs": "^9.1.2",
+    "@storybook/addon-onboarding": "^9.1.2",
+    "@storybook/preset-create-react-app": "^9.1.2",
+    "@storybook/react-webpack5": "^9.1.2",
+    "eslint-plugin-storybook": "^9.1.2",
+    "gh-pages": "^6.3.0",
+    "prop-types": "^15.8.1",
+    "storybook": "^9.1.2",
+    "webpack": "^5.101.2"
   }
 }
