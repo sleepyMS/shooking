@@ -20,23 +20,24 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./shooking # Corrected path
 
       - name: Build React app
         run: npm run build
+        working-directory: ./shooking # Corrected path
 
       - name: Build Storybook
         run: npm run build-storybook
+        working-directory: ./shooking # Corrected path
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
-          cname: your-custom-domain.com # 커스텀 도메인 사용 시
+          publish_dir: ./shooking/build # Corrected path
 
       - name: Deploy Storybook to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./storybook-static
-          cname: storybook.your-custom-domain.com # 스토리북용 커스텀 도메인 사용 시
+          publish_dir: ./shooking/storybook-static # Corrected path
